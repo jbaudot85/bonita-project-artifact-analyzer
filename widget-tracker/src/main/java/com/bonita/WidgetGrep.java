@@ -10,25 +10,22 @@ import org.apache.commons.io.DirectoryWalker;
 import org.apache.commons.io.LineIterator;
 import org.apache.commons.io.FileUtils;
 
-public class Grep extends DirectoryWalker
+// This class aims at looking for a widget occurences in Json files recursively.
+public class WidgetGrep extends DirectoryWalker
 {
-    public String regexp = null;
-    public String text = null;
+    public String widgetName = null;
 
-    public Grep(String _text){
+    public WidgetGrep(String _widgetName)
+    {
         super();
-        if (_text!=null)
-        {
-            text = "\"id\" : \"" + _text + "\"";
-            regexp = "^.*" + text + ".*$";
-        }
+        if (_widgetName!=null) widgetName = "\"id\" : \"" + _widgetName + "\"";
     }
 
-    public Grep(){
+    public WidgetGrep(){
         this(null);
     }
 
-    public List recursive(String directoryPath)
+    public List recursive_exec(String directoryPath)
     {
         File startDirectory = new File(directoryPath);
         List results = new ArrayList();
@@ -44,30 +41,29 @@ public class Grep extends DirectoryWalker
         return results;
     }
 
-    protected boolean handleDirectory(File directory,
-                                      int depth, Collection results){
-      // Decide if a (sub) directory will be handled for recursive search
-      return true;
+    protected boolean handleDirectory(File directory,int depth, Collection results)
+    {    
+      return true; // Keep all directories
     }
 
     protected void handleFile(File file, int depth, Collection results) throws IOException
     { 
-        if (!file.getName().contains(".json")) return;
-        if (regexp==null)
+        if (!file.getName().contains(".json")) return; // Filter JSon files
+
+        if (widgetName==null)
         {
-            // Just return the files having a json extension
             results.add(file);
         }
         else
         {
-            // Return the files having a json extension, as many as the number of seeked text occurence in it
+            String regexp = "^.*" + widgetName + ".*$";
             LineIterator it = FileUtils.lineIterator(file, "UTF-8");
             try{
                 while (it.hasNext()){
                     String line = it.nextLine();
                     if(line.matches(regexp)){
                         results.add(file);
-                        System.out.println("Found occurrence of " + text + " in " + file.getName() );
+                        System.out.println("Found occurrence of " + widgetName + " in " + file.getName() );
                     }
                 }
             }

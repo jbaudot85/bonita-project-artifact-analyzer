@@ -4,16 +4,12 @@ import java.util.List;
 import java.util.ArrayList;
 import java.io.File;
 
-/**
- * Hello world!
- *
- */
 public class App 
 {
     public static ArrayList<String> seekProjectFragments(String projectRootPath)
     {
-        Grep grep = new Grep();
-        List result = grep.recursive(projectRootPath + "\\web_fragments\\");
+        WidgetGrep grep = new WidgetGrep();
+        List result = grep.recursive_exec(projectRootPath + "\\web_fragments\\");
 
         ArrayList<File> list = new ArrayList<File>(result);
         ArrayList<String> fragments = new ArrayList<String>();
@@ -32,8 +28,8 @@ public class App
     {
         for (int w=0;w<widgetNames.size();w++)
         {
-            Grep g = new Grep(widgetNames.get(w));
-            ArrayList<File> list = new ArrayList<File>(g.recursive(projectRootPath + "web_page\\"));
+            WidgetGrep g = new WidgetGrep(widgetNames.get(w));
+            ArrayList<File> list = new ArrayList<File>(g.recursive_exec(projectRootPath + "web_page\\"));
             wcount[w] += list.size();
         }
     }
@@ -47,12 +43,20 @@ public class App
 
         for (int w=0;w<widgetNames.size();w++)
         {
-            Grep g = new Grep(widgetNames.get(w));
+            WidgetGrep g = new WidgetGrep(widgetNames.get(w));
             for (int f=0;f<fragments.size();f++)
             {
-                ArrayList<File> list = new ArrayList<File>(g.recursive(projectRootPath + "web_fragments\\" + fragments.get(f)+"\\"));
+                ArrayList<File> list = new ArrayList<File>(g.recursive_exec(projectRootPath + "web_fragments\\" + fragments.get(f)+"\\"));
                 wcount[w] += list.size() * fcount[f];
             }
+        }
+    }
+
+    public static void aggregate(int[] a, int[] b, int[] c)
+    {
+        for (int i=0;i<a.length;i++)
+        {
+            c[i]= a[i] + b[i];
         }
     }
 
@@ -87,16 +91,34 @@ public class App
         widgetNames.add("pbTitle");
         widgetNames.add("pbUpload");
 
-        int[] wcount_direct = new int[widgetNames.size()];
-        int[] wcount_fragments = new int[widgetNames.size()];
+        ArrayList<String> projectsNames = new ArrayList<>();
+        projectsNames.add("app-HRManagement");
+        projectsNames.add("app-InvoiceManagement");
+        projectsNames.add("app-Ticketing");
+        projectsNames.add("credit-card-dispute-resolution");
+        projectsNames.add("expense-report-example");
+        projectsNames.add("procurement-example");
+        projectsNames.add("showroom-cloud");
+        projectsNames.add("tahiti");
 
-        String projectPath = "C:\\code\\bonita-from-the-field\\tahiti\\";
+        String projectsPath = "C:\\code\\bonita-from-the-field\\";
+        CSV csv = new CSV(widgetNames);
 
-        countWidgetOccurence_Direct(projectPath,widgetNames,wcount_direct);
-        countWidgetOccurence_ThroughFragments(projectPath,widgetNames,wcount_fragments);
+        for (int p=0;p<projectsNames.size();p++)
+        {
+            int[] wcount_direct = new int[widgetNames.size()];
+            int[] wcount_fragments = new int[widgetNames.size()];
+            int[] wcount = new int[widgetNames.size()];
 
-        CSV csv = new CSV();
-        csv.exportTo("direct.csv",widgetNames,wcount_direct);
-        csv.exportTo("fragments.csv",widgetNames,wcount_fragments);
+            String projectPath = projectsPath + projectsNames.get(p) + "\\";
+
+            countWidgetOccurence_Direct(projectPath,widgetNames,wcount_direct);
+            countWidgetOccurence_ThroughFragments(projectPath,widgetNames,wcount_fragments);
+            aggregate(wcount_direct,wcount_fragments,wcount);
+
+            csv.AddDataLine(projectsNames.get(p), wcount);
+        }
+
+        csv.exportTo("widgets.csv");
     }
 }
