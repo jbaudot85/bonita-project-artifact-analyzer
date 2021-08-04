@@ -42,12 +42,14 @@ public class WidgetGrep extends DirectoryWalker
     }
 
     protected boolean handleDirectory(File directory,int depth, Collection results)
-    {    
-      return true; // Keep all directories
+    {
+        if (depth>1) return false; // Limit to first childs    
+        return true; // Keep all directories
     }
 
     protected void handleFile(File file, int depth, Collection results) throws IOException
     { 
+        if (depth>2) return; // Limit to subdirectories files (hence avoid false positives in e.g. assets)
         if (!file.getName().contains(".json")) return; // Filter JSon files
 
         if (widgetName==null)
