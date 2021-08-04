@@ -1,57 +1,10 @@
 package com.bonita;
 
-import java.util.List;
 import java.util.ArrayList;
-import java.io.File;
+import java.util.Arrays;
 
 public class App 
 {
-    public static ArrayList<String> seekProjectFragments(String projectRootPath)
-    {
-        WidgetGrep grep = new WidgetGrep();
-        List result = grep.recursive_exec(projectRootPath + "\\web_fragments\\");
-
-        ArrayList<File> list = new ArrayList<File>(result);
-        ArrayList<String> fragments = new ArrayList<String>();
-        for (int i=0;i<list.size();i++)
-        {
-            String fname = list.get(i).getName();
-            fname = fname.substring(0, fname.length() - 5); // remove ".json"
-            fragments.add(fname);
-            System.out.println("Found fragment: "+fname);
-        }
-
-        return fragments;
-    }
-
-    public static void countWidgetOccurence_Direct(String projectRootPath, ArrayList<String> widgetNames, int[] wcount)
-    {
-        for (int w=0;w<widgetNames.size();w++)
-        {
-            WidgetGrep g = new WidgetGrep(widgetNames.get(w));
-            ArrayList<File> list = new ArrayList<File>(g.recursive_exec(projectRootPath + "web_page\\"));
-            wcount[w] += list.size();
-        }
-    }
-
-    public static void countWidgetOccurence_ThroughFragments(String projectRootPath, ArrayList<String> widgetNames, int[] wcount)
-    {
-        ArrayList<String> fragments = seekProjectFragments(projectRootPath);
-        int[] fcount = new int[fragments.size()];
-
-        countWidgetOccurence_Direct(projectRootPath,fragments,fcount);
-
-        for (int w=0;w<widgetNames.size();w++)
-        {
-            WidgetGrep g = new WidgetGrep(widgetNames.get(w));
-            for (int f=0;f<fragments.size();f++)
-            {
-                ArrayList<File> list = new ArrayList<File>(g.recursive_exec(projectRootPath + "web_fragments\\" + fragments.get(f)+"\\"));
-                wcount[w] += list.size() * fcount[f];
-            }
-        }
-    }
-
     public static void aggregate(int[] a, int[] b, int[] c)
     {
         for (int i=0;i<a.length;i++)
@@ -59,7 +12,6 @@ public class App
             c[i]= a[i] + b[i];
         }
     }
-
     
     public static void main( String[] args )
     {
@@ -106,17 +58,32 @@ public class App
 
         for (int p=0;p<projectsNames.size();p++)
         {
-            int[] wcount_direct = new int[widgetNames.size()];
-            int[] wcount_fragments = new int[widgetNames.size()];
-            int[] wcount = new int[widgetNames.size()];
-
             String projectPath = projectsPath + projectsNames.get(p) + "\\";
 
-            countWidgetOccurence_Direct(projectPath,widgetNames,wcount_direct);
-            countWidgetOccurence_ThroughFragments(projectPath,widgetNames,wcount_fragments);
-            aggregate(wcount_direct,wcount_fragments,wcount);
+            // Fragments
+            ArrayList<String> fragmentNames = BonitaProject.seekFragments(projectPath);
 
-            csv.AddDataLine(projectsNames.get(p), wcount);
+            // Widgets
+            int[] widget_usage_count_direct = new int[widgetNames.size()];
+            int[] widget_usage_count_fragments = new int[widgetNames.size()];
+            int[] widget_usage_count = new int[widgetNames.size()];
+            BonitaProject.countWidgetOccurence_Direct(projectPath,widgetNames,widget_usage_count_direct);
+            BonitaProject.countWidgetOccurence_ThroughFragments(projectPath,widgetNames,fragmentNames,widget_usage_count_fragments);
+            aggregate(widget_usage_count_direct,widget_usage_count_fragments,widget_usage_count);
+
+            // Custom Widgets
+            ArrayList<String> customWidgetNames = BonitaProject.seekCustomWidgets(projectPath);
+            int[] cwidget_usage_count_direct = new int[customWidgetNames.size()];
+            int[] cwidget_usage_count_fragments = new int[customWidgetNames.size()];
+            int[] cwidget_usage_count = new int[customWidgetNames.size()];
+            BonitaProject.countWidgetOccurence_Direct(projectPath,customWidgetNames,cwidget_usage_count_direct);
+            BonitaProject.countWidgetOccurence_ThroughFragments(projectPath,customWidgetNames,fragmentNames,cwidget_usage_count_fragments);
+            aggregate(cwidget_usage_count_direct,cwidget_usage_count_fragments,cwidget_usage_count);
+
+            // Statistics & report
+            int cwidget_count = customWidgetNames.size();
+            int all_cwidget_usage_count = Arrays.stream(cwidget_usage_count).sum();
+            csv.AddDataLine(projectsNames.get(p),cwidget_count, all_cwidget_usage_count, widget_usage_count);
         }
 
         csv.exportTo("widgets.csv");

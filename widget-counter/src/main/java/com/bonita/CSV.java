@@ -19,17 +19,21 @@ public class CSV
 
     private void addDataHead(ArrayList<String> widgetNames)
     {
-        String[] head = new String[widgetNames.size() + 1];
+        String[] head = new String[widgetNames.size() + 3];
         head[0] = "Project";
-        for (int i=0;i<widgetNames.size();i++) head[i+1] = widgetNames.get(i);
+        head[1] = "CW count";
+        head[2] = "All CWs usage";
+        for (int i=0;i<widgetNames.size();i++) head[i+3] = widgetNames.get(i);
         dataLines.add(head);
     }
 
-    public void AddDataLine(String projectName, int[] count)
+    public void AddDataLine(String projectName, int cwCount, int allcwUsage, int[] wUsage)
     {
-        String[] line = new String[count.length + 1];
+        String[] line = new String[wUsage.length + 3];
         line[0] = projectName;
-        for (int i=0;i<count.length;i++) line[i+1] = String.valueOf(count[i]);
+        line[1] = String.valueOf(cwCount);
+        line[2] = String.valueOf(allcwUsage);
+        for (int i=0;i<wUsage.length;i++) line[i+3] = String.valueOf(wUsage[i]);
         dataLines.add(line);
     }
 

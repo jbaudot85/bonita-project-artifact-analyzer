@@ -43,8 +43,9 @@ public class WidgetGrep extends DirectoryWalker
 
     protected boolean handleDirectory(File directory,int depth, Collection results)
     {
-        if (depth>1) return false; // Limit to first childs    
-        return true; // Keep all directories
+        if (depth>1) return false; // Limit to first childs
+        if (directory.getName().contains(".metadata")) return false; // Discard metadata subfolder (appears in custom widgets structure)
+        return true;
     }
 
     protected void handleFile(File file, int depth, Collection results) throws IOException
