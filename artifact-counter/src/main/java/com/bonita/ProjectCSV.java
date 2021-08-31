@@ -19,19 +19,27 @@ public class ProjectCSV
 
     private void addDataHead()
     {
-        String[] head = new String[3];
+        String[] head = new String[7];
         head[0] = "Project";
-        head[1] = "#CW";
-        head[2] = "#Fragments";
+        head[1] = "#Processes";
+        head[2] = "#Pools";
+        head[3] = "#Lanes";
+        head[4] = "#Tasks";
+        head[5] = "#CW";
+        head[6] = "#Fragments";
         dataLines.add(head);
     }
 
-    public void AddDataLine(String projectName, int cwCount, int fragmentCount)
+    public void AddDataLine(String projectName, int processCount, int poolCount, int laneCount, int taskCount, int cwCount, int fragmentCount)
     {
-        String[] line = new String[3];
+        String[] line = new String[7];
         line[0] = projectName;
-        line[1] = String.valueOf(cwCount);
-        line[2] = String.valueOf(fragmentCount);
+        line[1] = String.valueOf(processCount);
+        line[2] = String.valueOf(poolCount);
+        line[3] = String.valueOf(laneCount);
+        line[4] = String.valueOf(taskCount);
+        line[5] = String.valueOf(cwCount);
+        line[6] = String.valueOf(fragmentCount);
         dataLines.add(line);
     }
 

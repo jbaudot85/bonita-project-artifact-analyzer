@@ -6,6 +6,21 @@ import java.io.File;
 
 public class BonitaProject 
 {
+    public static BonitaProcessPropertyList seekProcessProperties(String projectRootPath)
+    {
+        ProcessGrep grep = new ProcessGrep();
+        List result = grep.recursive_exec(projectRootPath + "\\diagrams\\");
+
+        ArrayList<BonitaProcessPropertyList> list = new ArrayList<BonitaProcessPropertyList>(result);
+        BonitaProcessPropertyList aggregate = new BonitaProcessPropertyList();
+        for (int i=0;i<list.size();i++)
+        {
+            aggregate.aggregate(list.get(i));
+        }
+
+        return aggregate;
+    }
+
     public static ArrayList<String> seekFragments(String projectRootPath)
     {
         WidgetGrep grep = new WidgetGrep();

@@ -1,0 +1,10 @@
+Project,#Processes,#Pools,#Lanes,#Tasks,#CW,#Fragments
+app-HRManagement,7,12,19,40,12,9
+app-InvoiceManagement,8,9,10,20,10,15
+app-Ticketing,12,14,14,30,17,15
+credit-card-dispute-resolution,2,2,4,12,5,9
+expense-report-example,3,3,4,1,1,0
+procurement-example,3,3,4,6,2,0
+showroom-cloud,2,3,2,2,3,2
+tahiti,7,9,8,28,11,4
+serenity,6,13,12,84,5,4
