@@ -1,10 +1,10 @@
-# bonita-widget-counter
+# bonita-artifact-counter
 
-This piece of software is a console app that seek for widgets usage in Bonita projects (as stored in github repos).
+This piece of software is a console app that seek for artifacts number and usage in Bonita projects (as stored in github repos).
 So far the projects must already be cloned from github on the local disk, and when analysing many, be direct childs of a single parent folder.
 A single CSV file is exported, with a line per project.
 
-Widget integrations are counted both:
+Note: widget usage is counted both:
 * by direct integration in a page;
 * by indirect integration through a fragment.
 
