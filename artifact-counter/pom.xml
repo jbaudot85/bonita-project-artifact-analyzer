@@ -5,10 +5,10 @@
   <modelVersion>4.0.0</modelVersion>
 
   <groupId>com.bonita</groupId>
-  <artifactId>widget-counter</artifactId>
+  <artifactId>artifact-counter</artifactId>
   <version>1.0-SNAPSHOT</version>
 
-  <name>widget-counter</name>
+  <name>artifact-counter</name>
 
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
