@@ -54,7 +54,7 @@ public class App
         projectsNames.add("tahiti");
 
         String projectsPath = "C:\\code\\bonita-from-the-field\\";
-        CSV csv = new CSV(widgetNames);
+        WidgetCSV widgetCsv = new WidgetCSV(widgetNames);
 
         for (int p=0;p<projectsNames.size();p++)
         {
@@ -83,9 +83,9 @@ public class App
             // Statistics & report
             int cwidget_count = customWidgetNames.size();
             int all_cwidget_usage_count = Arrays.stream(cwidget_usage_count).sum();
-            csv.AddDataLine(projectsNames.get(p),cwidget_count, all_cwidget_usage_count, widget_usage_count);
+            widgetCsv.AddDataLine(projectsNames.get(p),cwidget_count, all_cwidget_usage_count, widget_usage_count);
         }
 
-        csv.exportTo("widgets.csv");
+        widgetCsv.exportTo("widgets.csv");
     }
 }

@@ -8,10 +8,10 @@ import java.io.PrintWriter;
 import java.util.stream.*;
 
 // This class aims at building and exporting CSV files
-public class CSV
+public class WidgetCSV
 {
     List<String[]> dataLines;
-    public CSV(ArrayList<String> widgetNames)
+    public WidgetCSV(ArrayList<String> widgetNames)
     {
         dataLines = new ArrayList<>();
         addDataHead(widgetNames);
