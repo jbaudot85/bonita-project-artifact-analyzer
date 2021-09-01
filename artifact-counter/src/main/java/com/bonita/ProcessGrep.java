@@ -54,6 +54,10 @@ public class ProcessGrep extends DirectoryWalker
         String regexp_task = "^.*" + "<elements xmi:type=\"process:Task\"" + ".*$";
         String regexp_stask = "^.*" + "<elements xmi:type=\"process:ServiceTask\"" + ".*$";
 
+        // Also to search for:
+        // <connectors xmi:type="process:Connector" -> number of connector calls
+        // interpreter="GROOVY" -> number of Groovy scripts
+
         LineIterator it = FileUtils.lineIterator(file, "UTF-8");
         try{
             while (it.hasNext()){
