@@ -46,17 +46,16 @@ public class ProcessGrep extends DirectoryWalker
         if (depth>2) return; // Limit to subdirectories files
         if (!file.getName().contains(".proc")) return; // Filter .proc files
 
-        BonitaProcessPropertyList processProp = new BonitaProcessPropertyList();
+        BonitaProcessItemCounter processProp = new BonitaProcessItemCounter();
 
-        processProp.ProcessCount = 1; //Assuming a process already exist in a .proc file
+        processProp.Processes = 1; //Assuming a process already exist in a .proc file
         String regexp_pool = "^.*" + "<elements xmi:type=\"process:Pool\"" + ".*$";
         String regexp_lane = "^.*" + "<elements xmi:type=\"process:Lane\"" + ".*$";
         String regexp_task = "^.*" + "<elements xmi:type=\"process:Task\"" + ".*$";
         String regexp_stask = "^.*" + "<elements xmi:type=\"process:ServiceTask\"" + ".*$";
-
-        // Also to search for:
-        // <connectors xmi:type="process:Connector" -> number of connector calls
-        // interpreter="GROOVY" -> number of Groovy scripts
+        String regexp_conncall = "^.*" + "<connectors xmi:type=\"process:Connector\"" + ".*$";
+        String regexp_groovyexp_1 = "^.*" + "xmi:type=\"expression:Expression\"" + ".*$";
+        String regexp_groovyexp_2 = "^.*" + "interpreter=\"GROOVY\"" + ".*$";
 
         LineIterator it = FileUtils.lineIterator(file, "UTF-8");
         try{
@@ -64,23 +63,33 @@ public class ProcessGrep extends DirectoryWalker
                 String line = it.nextLine();
                 if(line.matches(regexp_pool))
                 {
-                    processProp.PoolCount += 1;    
+                    processProp.Pools += 1;    
                     System.out.println("Found Pool in " + file.getName() );
                 }
                 else if(line.matches(regexp_lane))
                 {
-                    processProp.LaneCount += 1;    
+                    processProp.Lanes += 1;    
                     System.out.println("Found Lane in " + file.getName() );
                 }
                 else if(line.matches(regexp_task))
                 {
-                    processProp.TaskCount += 1;    
+                    processProp.Tasks += 1;    
                     System.out.println("Found Task in " + file.getName() );
                 }
                 else if(line.matches(regexp_stask))
                 {
-                    processProp.ServiceTaskCount += 1;    
+                    processProp.ServiceTasks += 1;    
                     System.out.println("Found ServiceTask in " + file.getName() );
+                }
+                else if(line.matches(regexp_conncall))
+                {
+                    processProp.ConnectorCalls += 1;    
+                    System.out.println("Found ConnectorCall in " + file.getName() );
+                }
+                else if(line.matches(regexp_groovyexp_1) && line.matches(regexp_groovyexp_2))
+                {
+                    processProp.GroovyExpressions += 1;    
+                    System.out.println("Found GroovyExpression in " + file.getName() );
                 }
             }
         }

@@ -50,7 +50,7 @@ public class ArtifactCounter
         String projectPath = projectsPath + projectName + "\\";
 
         // Processes
-        BonitaProcessPropertyList processProp = BonitaProject.seekProcessProperties(projectPath);
+        BonitaProcessItemCounter processCounter = BonitaProject.seekProcessProperties(projectPath);
 
         // Fragments
         ArrayList<String> fragmentNames = BonitaProject.seekFragments(projectPath);
@@ -75,7 +75,7 @@ public class ArtifactCounter
         // Statistics & report
         int cwidget_count = customWidgetNames.size();
         int all_cwidget_usage_count = Arrays.stream(cwidget_usage_count).sum();
-        projectCsv.AddDataLine(projectName,processProp.ProcessCount, processProp.PoolCount, processProp.LaneCount, processProp.AllTaskCount(), cwidget_count, fragmentNames.size());
+        projectCsv.AddDataLine(projectName,processCounter.Processes, processCounter.Pools, processCounter.Lanes, processCounter.AnyTypeOfTasks(), processCounter.ConnectorCalls, processCounter.GroovyExpressions, cwidget_count, fragmentNames.size());
         widgetCsv.AddDataLine(projectName,cwidget_count, all_cwidget_usage_count, widget_usage_count);
     }
 }

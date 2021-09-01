@@ -6,13 +6,13 @@ import java.io.File;
 
 public class BonitaProject 
 {
-    public static BonitaProcessPropertyList seekProcessProperties(String projectRootPath)
+    public static BonitaProcessItemCounter seekProcessProperties(String projectRootPath)
     {
         ProcessGrep grep = new ProcessGrep();
         List result = grep.recursive_exec(projectRootPath + "\\diagrams\\");
 
-        ArrayList<BonitaProcessPropertyList> list = new ArrayList<BonitaProcessPropertyList>(result);
-        BonitaProcessPropertyList aggregate = new BonitaProcessPropertyList();
+        ArrayList<BonitaProcessItemCounter> list = new ArrayList<BonitaProcessItemCounter>(result);
+        BonitaProcessItemCounter aggregate = new BonitaProcessItemCounter();
         for (int i=0;i<list.size();i++)
         {
             aggregate.aggregate(list.get(i));
