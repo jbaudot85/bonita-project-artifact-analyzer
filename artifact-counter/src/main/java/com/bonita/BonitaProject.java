@@ -6,13 +6,28 @@ import java.io.File;
 
 public class BonitaProject 
 {
-    public static BonitaProcessItemCounter seekProcessProperties(String projectRootPath)
+    public static BonitaBDMItemCounter seekBDMProperties(String projectRootPath)
     {
-        ProcessGrep grep = new ProcessGrep();
+        BDMGrep grep = new BDMGrep();
+        List result = grep.recursive_exec(projectRootPath + "\\bdm\\");
+
+        ArrayList<BonitaBDMItemCounter> list = new ArrayList<BonitaBDMItemCounter>(result);
+        BonitaBDMItemCounter aggregate = new BonitaBDMItemCounter();
+        for (int i=0;i<list.size();i++)
+        {
+            aggregate.aggregate(list.get(i));
+        }
+
+        return aggregate;
+    }
+
+    public static BonitaDiagramItemCounter seekDiagramProperties(String projectRootPath)
+    {
+        DiagramGrep grep = new DiagramGrep();
         List result = grep.recursive_exec(projectRootPath + "\\diagrams\\");
 
-        ArrayList<BonitaProcessItemCounter> list = new ArrayList<BonitaProcessItemCounter>(result);
-        BonitaProcessItemCounter aggregate = new BonitaProcessItemCounter();
+        ArrayList<BonitaDiagramItemCounter> list = new ArrayList<BonitaDiagramItemCounter>(result);
+        BonitaDiagramItemCounter aggregate = new BonitaDiagramItemCounter();
         for (int i=0;i<list.size();i++)
         {
             aggregate.aggregate(list.get(i));
@@ -23,7 +38,7 @@ public class BonitaProject
 
     public static ArrayList<String> seekFragments(String projectRootPath)
     {
-        WidgetGrep grep = new WidgetGrep();
+        FormGrep grep = new FormGrep();
         List result = grep.recursive_exec(projectRootPath + "\\web_fragments\\");
 
         ArrayList<File> list = new ArrayList<File>(result);
@@ -39,9 +54,16 @@ public class BonitaProject
         return fragments;
     }
 
+    public static int seekPagesCount(String projectRootPath)
+    {
+        FormGrep grep = new FormGrep();
+        List result = grep.recursive_exec(projectRootPath + "\\web_page\\");
+        return result.size();
+    }
+
     public static ArrayList<String> seekCustomWidgets(String projectRootPath)
     {
-        WidgetGrep grep = new WidgetGrep();
+        FormGrep grep = new FormGrep();
         List result = grep.recursive_exec(projectRootPath + "\\web_widgets\\");
 
         ArrayList<File> list = new ArrayList<File>(result);
@@ -61,7 +83,7 @@ public class BonitaProject
     {
         for (int w=0;w<widgetNames.size();w++)
         {
-            WidgetGrep g = new WidgetGrep(widgetNames.get(w));
+            FormGrep g = new FormGrep(widgetNames.get(w));
             ArrayList<File> list = new ArrayList<File>(g.recursive_exec(projectRootPath + "web_page\\"));
             wcount[w] += list.size();
         }
@@ -75,7 +97,7 @@ public class BonitaProject
 
         for (int w=0;w<widgetNames.size();w++)
         {
-            WidgetGrep g = new WidgetGrep(widgetNames.get(w));
+            FormGrep g = new FormGrep(widgetNames.get(w));
             for (int f=0;f<fragmentNames.size();f++)
             {
                 ArrayList<File> list = new ArrayList<File>(g.recursive_exec(projectRootPath + "web_fragments\\" + fragmentNames.get(f)+"\\"));

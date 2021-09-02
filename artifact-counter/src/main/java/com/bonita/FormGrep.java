@@ -10,18 +10,18 @@ import org.apache.commons.io.DirectoryWalker;
 import org.apache.commons.io.LineIterator;
 import org.apache.commons.io.FileUtils;
 
-// This class aims at looking for a widget occurences in Json files recursively.
-public class WidgetGrep extends DirectoryWalker
+// This class aims at looking for a widget and forms occurences in Json files recursively.
+public class FormGrep extends DirectoryWalker
 {
     public String widgetName = null;
 
-    public WidgetGrep(String _widgetName)
+    public FormGrep(String _widgetName)
     {
         super();
         if (_widgetName!=null) widgetName = "\"id\" : \"" + _widgetName + "\"";
     }
 
-    public WidgetGrep(){
+    public FormGrep(){
         this(null);
     }
 

@@ -19,31 +19,37 @@ public class ProjectCSV
 
     private void addDataHead()
     {
-        String[] head = new String[9];
+        String[] head = new String[12];
         head[0] = "Project";
-        head[1] = "#Processes";
-        head[2] = "#Pools";
-        head[3] = "#Lanes";
-        head[4] = "#Tasks";
-        head[5] = "#ConnectCalls";
-        head[6] = "#GroovyExps";
-        head[7] = "#CWs";
-        head[8] = "#Fragments";
+        head[1] = "#BdmObj";
+        head[2] = "#BdmFields";
+        head[3] = "#Diagrams";
+        head[4] = "#Pools";
+        head[5] = "#Lanes";
+        head[6] = "#Tasks";
+        head[7] = "#ConnectCalls";
+        head[8] = "#GroovyExps";
+        head[9] = "#Pages";
+        head[10] = "#CWs";
+        head[11] = "#Fragments";
         dataLines.add(head);
     }
 
-    public void AddDataLine(String projectName, int processes, int pools, int lanes, int tasks, int connectCalls, int groovyExps, int cws, int fragments)
+    public void AddDataLine(String projectName, int BO, int BF, int diagrams, int pools, int lanes, int tasks, int connectCalls, int groovyExps, int pages, int cws, int fragments)
     {
-        String[] line = new String[9];
+        String[] line = new String[12];
         line[0] = projectName;
-        line[1] = String.valueOf(processes);
-        line[2] = String.valueOf(pools);
-        line[3] = String.valueOf(lanes);
-        line[4] = String.valueOf(tasks);
-        line[5] = String.valueOf(connectCalls);
-        line[6] = String.valueOf(groovyExps);
-        line[7] = String.valueOf(cws);
-        line[8] = String.valueOf(fragments);
+        line[1] = String.valueOf(BO);
+        line[2] = String.valueOf(BF);
+        line[3] = String.valueOf(diagrams);
+        line[4] = String.valueOf(pools);
+        line[5] = String.valueOf(lanes);
+        line[6] = String.valueOf(tasks);
+        line[7] = String.valueOf(connectCalls);
+        line[8] = String.valueOf(groovyExps);
+        line[9] = String.valueOf(pages);
+        line[10] = String.valueOf(cws);
+        line[11] = String.valueOf(fragments);
         dataLines.add(line);
     }
 

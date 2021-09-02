@@ -1,8 +1,8 @@
 package com.bonita;
 
-public class BonitaProcessItemCounter
+public class BonitaDiagramItemCounter
 {
-    public int Processes;
+    public int Diagrams;
     public int Pools;
     public int Lanes;
 
@@ -12,9 +12,9 @@ public class BonitaProcessItemCounter
     public int ConnectorCalls;
     public int GroovyExpressions;
 
-    public BonitaProcessItemCounter()
+    public BonitaDiagramItemCounter()
     {
-        Processes = 0;
+        Diagrams = 0;
         Pools = 0;
         Lanes = 0;
         Tasks = 0;
@@ -23,9 +23,9 @@ public class BonitaProcessItemCounter
         GroovyExpressions = 0;
     }
 
-    public void aggregate(BonitaProcessItemCounter other)
+    public void aggregate(BonitaDiagramItemCounter other)
     {
-        Processes += other.Processes;
+        Diagrams += other.Diagrams;
         Pools += other.Pools;
         Lanes += other.Lanes;
         Tasks += other.Tasks;

@@ -6,7 +6,7 @@ public class App
 {   
     public static void main( String[] args )
     {
-        WidgetCSV widgetCsv = new WidgetCSV(ArtifactCounter.widgetNames());
+        WidgetCSV widgetCsv = new WidgetCSV();
         ProjectCSV projectCsv = new ProjectCSV();
 
         // Git projects
@@ -26,13 +26,14 @@ public class App
             
             for (int p=0;p<projectNames.size();p++)
             {
-                ArtifactCounter.projectAnalysis(projectsPath, projectNames.get(p), projectCsv, widgetCsv);     
+                BonitaProjectAnalysis.exec(projectsPath, projectNames.get(p), projectCsv, widgetCsv);     
             }
         }
 
         // Workspace projects
         {
             ArrayList<String> projectNames = new ArrayList<>();
+            projectNames.add("DemandeTeletravail-1.2");
             projectNames.add("CECILIAPEREZ_Alta de Persona Juridica-4.3.0");
             projectNames.add("CECILIAPEREZ_Reporte de Eventos-2.8");
             projectNames.add("DongheeBaik_Security Advisory Process-1.0");
@@ -49,7 +50,7 @@ public class App
             
             for (int p=0;p<projectNames.size();p++)
             {
-                ArtifactCounter.projectAnalysis(projectsPath, projectNames.get(p), projectCsv, widgetCsv);     
+                BonitaProjectAnalysis.exec(projectsPath, projectNames.get(p), projectCsv, widgetCsv);     
             }
         }
 

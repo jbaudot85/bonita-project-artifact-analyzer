@@ -11,10 +11,10 @@ import java.util.stream.*;
 public class WidgetCSV
 {
     List<String[]> dataLines;
-    public WidgetCSV(ArrayList<String> widgetNames)
+    public WidgetCSV()
     {
         dataLines = new ArrayList<>();
-        addDataHead(widgetNames);
+        addDataHead(WidgetList.widgetNames());
     }
 
     private void addDataHead(ArrayList<String> widgetNames)
