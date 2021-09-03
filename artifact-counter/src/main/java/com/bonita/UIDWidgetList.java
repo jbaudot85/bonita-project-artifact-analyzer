@@ -2,9 +2,9 @@ package com.bonita;
 
 import java.util.ArrayList;
 
-public class WidgetList
+public class UIDWidgetList
 {
-    public static ArrayList<String> widgetNames()
+    public static ArrayList<String> providedWidgetNames()
     {
         ArrayList<String> widgetNames = new ArrayList<>();
         widgetNames.add("pbAutocomplete");
@@ -34,5 +34,15 @@ public class WidgetList
         widgetNames.add("pbTitle");
         widgetNames.add("pbUpload");
         return widgetNames;
+    }
+
+    public static boolean IsProvided(String widgetName)
+    {
+        ArrayList<String> pwidgetNames = providedWidgetNames();
+        for (int i=0;i<pwidgetNames.size();i++)
+        {
+            if (pwidgetNames.get(i).equalsIgnoreCase(widgetName)) return true;
+        }
+        return false;
     }
 }

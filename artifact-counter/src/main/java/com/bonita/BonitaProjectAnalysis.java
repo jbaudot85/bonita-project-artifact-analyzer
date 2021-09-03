@@ -30,7 +30,7 @@ public class BonitaProjectAnalysis
         int pageCount = BonitaProject.seekPagesCount(projectPath);
 
         // Widgets
-        ArrayList<String> widgetNames = WidgetList.widgetNames();
+        ArrayList<String> widgetNames = UIDWidgetList.providedWidgetNames();
         int[] widget_usage_count_direct = new int[widgetNames.size()];
         int[] widget_usage_count_fragments = new int[widgetNames.size()];
         int[] widget_usage_count = new int[widgetNames.size()];

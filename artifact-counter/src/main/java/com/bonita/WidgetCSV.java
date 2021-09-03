@@ -14,7 +14,7 @@ public class WidgetCSV
     public WidgetCSV()
     {
         dataLines = new ArrayList<>();
-        addDataHead(WidgetList.widgetNames());
+        addDataHead(UIDWidgetList.providedWidgetNames());
     }
 
     private void addDataHead(ArrayList<String> widgetNames)

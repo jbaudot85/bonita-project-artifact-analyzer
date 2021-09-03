@@ -65,15 +65,20 @@ public class BonitaProject
     {
         FormGrep grep = new FormGrep();
         List result = grep.recursive_exec(projectRootPath + "\\web_widgets\\");
-
+        
         ArrayList<File> list = new ArrayList<File>(result);
         ArrayList<String> cwidgets = new ArrayList<String>();
         for (int i=0;i<list.size();i++)
         {
             String cwname = list.get(i).getName();
             cwname = cwname.substring(0, cwname.length() - 5); // remove ".json"
-            cwidgets.add(cwname);
-            System.out.println("Found custom widget: "+cwname);
+
+            // Check the widget is not a provided one (this happens in project Studio workspace, not in their git-repo)
+            if (!UIDWidgetList.IsProvided(cwname))
+            {
+                cwidgets.add(cwname);
+                System.out.println("Found custom widget: "+cwname);
+            }
         }
 
         return cwidgets;
