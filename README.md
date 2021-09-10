@@ -1,4 +1,8 @@
-# bonita-artifact-counter
+# bonita-project-artifact-analyzer
+
+A bunch of tooling to analyze Bonita projects.
+
+## artifact-counter
 
 This piece of software is a console app that seek for artifacts number and usage in Bonita projects (as stored in github repos).
 So far the projects must already be cloned from github on the local disk, and when analysing many, be direct childs of a single parent folder.
