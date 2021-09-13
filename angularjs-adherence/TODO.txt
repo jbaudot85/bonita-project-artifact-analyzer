@@ -1,0 +1,4 @@
+# Dependencies
+
+Seek all js files in assets containing "angular.module"
+
